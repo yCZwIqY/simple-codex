@@ -13,7 +13,7 @@ function parseScope(v: string): Scope {
 const program = new Command();
 
 program
-  .name("mycodex")
+  .name("simple-codex")
   .description("Codex CLI를 위한 가벼운 오케스트레이션 레이어(MVP)")
   .version("0.1.0");
 
