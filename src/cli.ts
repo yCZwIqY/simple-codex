@@ -14,12 +14,12 @@ const program = new Command();
 
 program
   .name("simple-codex")
-  .description("Codex CLI를 위한 가벼운 오케스트레이션 레이어(MVP)")
+  .description("A lightweight orchestration layer for the Codex CLI (MVP)")
   .version("0.1.0");
 
 program
   .command("setup")
-  .description("프롬프트/스킬/설정 템플릿 설치")
+  .description("Install prompt, skill, and config templates")
   .option("--scope <scope>", "user | project", "project")
   .action(async (opts) => {
     const scope = parseScope(opts.scope);
@@ -28,18 +28,18 @@ program
 
 program
   .command("doctor")
-  .description("설치/구성 상태 점검")
+  .description("Check installation and configuration status")
   .option("--scope <scope>", "user | project", "project")
   .action(async (opts) => {
     const scope = parseScope(opts.scope);
     await runDoctor(scope);
   });
 
-const prompt = program.command("prompt").description("프롬프트 관리");
+const prompt = program.command("prompt").description("Manage prompts");
 
 prompt
   .command("add")
-  .description("프롬프트 파일 생성")
+  .description("Create a prompt file")
   .argument("<name>", "prompt name")
   .option("--scope <scope>", "user | project", "project")
   .action(async (name, opts) => {
@@ -49,7 +49,7 @@ prompt
 
 prompt
   .command("list")
-  .description("프롬프트 목록")
+  .description("List prompts")
   .option("--scope <scope>", "user | project", "project")
   .action(async (opts) => {
     const scope = parseScope(opts.scope);

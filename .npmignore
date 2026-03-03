@@ -1,0 +1,24 @@
+# Source and local development files
+src/
+node_modules/
+tsconfig.json
+pnpm-lock.yaml
+*.tsbuildinfo
+
+# Local runtime/workspace state
+.codex/
+.agents/
+.myx/
+
+# VCS and editor files
+.git/
+.github/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
