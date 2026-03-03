@@ -1,0 +1,11 @@
+# Default mycodex configuration example
+# You can extend this file as needed.
+
+# Optionally inject AGENTS.md at runtime using:
+  # codex -c model_instructions_file="./AGENTS.md"
+
+  [ui]
+notify = true
+
+  [environment]
+# Add environment-related configurations here if needed.

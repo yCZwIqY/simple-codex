@@ -1,33 +1,33 @@
 # simple-codex
 
-Lightweight CLI for bootstrapping and checking a Codex workspace (MVP).
+Codex 작업 환경을 빠르게 초기화하고 상태를 점검하는 경량 CLI 도구(MVP)입니다.
 
-Korean documentation: [README.ko.md](./README.ko.md)
+영문 문서: [README.md](./README.md)
 
-## What It Does
+## 주요 기능
 
-- Installs baseline templates for Codex and agents
-- Creates `AGENTS.md` if missing
-- Checks local setup health
-- Adds and lists prompt files
+- Codex/Agent 기본 템플릿 설치
+- `AGENTS.md`가 없으면 자동 생성
+- 설치/구성 상태 점검
+- 프롬프트 파일 생성 및 목록 조회
 
-## Commands
+## 명령어
 
-The package binary is `simple-codex`, and the CLI program name is currently `mycodex`.
+패키지 실행 바이너리는 `simple-codex`이며, CLI 내부 프로그램명은 현재 `mycodex`입니다.
 
 ### `setup`
 
-Install prompt/skill/config templates.
+프롬프트/스킬/설정 템플릿을 설치합니다.
 
 ```bash
 simple-codex setup --scope project
-# or
+# 또는
 simple-codex setup --scope user
 ```
 
 ### `doctor`
 
-Validate required files and directories.
+필수 파일/디렉터리 상태를 점검합니다.
 
 ```bash
 simple-codex doctor --scope project
@@ -35,7 +35,7 @@ simple-codex doctor --scope project
 
 ### `prompt add`
 
-Create a new prompt file under `<CODEX_HOME>/prompts`.
+`<CODEX_HOME>/prompts`에 새 프롬프트 파일을 만듭니다.
 
 ```bash
 simple-codex prompt add architect --scope project
@@ -43,13 +43,13 @@ simple-codex prompt add architect --scope project
 
 ### `prompt list`
 
-List available prompts.
+사용 가능한 프롬프트 목록을 출력합니다.
 
 ```bash
 simple-codex prompt list --scope project
 ```
 
-## Scope Behavior
+## Scope 동작
 
 `--scope project`
 - `codexHome`: `<cwd>/.codex`
@@ -63,20 +63,20 @@ simple-codex prompt list --scope project
 - `agentsMd`: `<cwd>/AGENTS.md`
 - `stateHome`: `~/.myx`
 
-## Development
+## 개발
 
 ```bash
 pnpm install
 pnpm build
 ```
 
-Run compiled CLI:
+빌드된 CLI 실행:
 
 ```bash
 node dist/cli.js --help
 ```
 
-## Project Structure
+## 프로젝트 구조
 
 ```text
 src/
