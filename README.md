@@ -13,16 +13,16 @@ Korean documentation: [README.ko.md](./README.ko.md)
 
 ## Commands
 
-The package binary is `simple-codex`, and the CLI program name is currently `mycodex`.
+The package binary is `scodex` (legacy alias: `simple-codex`), and the CLI program name is `scodex`.
 
 ### `setup`
 
 Install prompt/skill/config templates.
 
 ```bash
-simple-codex setup --scope project
+scodex setup --scope project
 # or
-simple-codex setup --scope user
+scodex setup --scope user
 ```
 
 ### `doctor`
@@ -30,7 +30,7 @@ simple-codex setup --scope user
 Validate required files and directories.
 
 ```bash
-simple-codex doctor --scope project
+scodex doctor --scope project
 ```
 
 ### `prompt add`
@@ -38,7 +38,7 @@ simple-codex doctor --scope project
 Create a new prompt file under `<CODEX_HOME>/prompts`.
 
 ```bash
-simple-codex prompt add architect --scope project
+scodex prompt add architect --scope project
 ```
 
 ### `prompt list`
@@ -46,7 +46,7 @@ simple-codex prompt add architect --scope project
 List available prompts.
 
 ```bash
-simple-codex prompt list --scope project
+scodex prompt list --scope project
 ```
 
 ## Scope Behavior

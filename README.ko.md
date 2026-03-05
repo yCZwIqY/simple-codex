@@ -13,16 +13,16 @@ Codex 작업 환경을 빠르게 초기화하고 상태를 점검하는 경량 C
 
 ## 명령어
 
-패키지 실행 바이너리는 `simple-codex`이며, CLI 내부 프로그램명은 현재 `mycodex`입니다.
+패키지 실행 바이너리는 `scodex`(레거시 별칭: `simple-codex`)이며, CLI 내부 프로그램명도 `scodex`입니다.
 
 ### `setup`
 
 프롬프트/스킬/설정 템플릿을 설치합니다.
 
 ```bash
-simple-codex setup --scope project
+scodex setup --scope project
 # 또는
-simple-codex setup --scope user
+scodex setup --scope user
 ```
 
 ### `doctor`
@@ -30,7 +30,7 @@ simple-codex setup --scope user
 필수 파일/디렉터리 상태를 점검합니다.
 
 ```bash
-simple-codex doctor --scope project
+scodex doctor --scope project
 ```
 
 ### `prompt add`
@@ -38,7 +38,7 @@ simple-codex doctor --scope project
 `<CODEX_HOME>/prompts`에 새 프롬프트 파일을 만듭니다.
 
 ```bash
-simple-codex prompt add architect --scope project
+scodex prompt add architect --scope project
 ```
 
 ### `prompt list`
@@ -46,7 +46,7 @@ simple-codex prompt add architect --scope project
 사용 가능한 프롬프트 목록을 출력합니다.
 
 ```bash
-simple-codex prompt list --scope project
+scodex prompt list --scope project
 ```
 
 ## Scope 동작

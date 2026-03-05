@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "bin": {
+    "scodex": "dist/cli.js",
     "simple-codex": "dist/cli.js"
   },
   "scripts": {
