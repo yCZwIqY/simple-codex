@@ -1,0 +1,39 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install deps
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build
+        run: pnpm build --if-present
+
+      - name: Versions
+        run: node -v && npm -v
+
+      - name: Publish
+        run: npm publish --access public

@@ -13,6 +13,9 @@ export async function runDoctor(scope: Scope) {
     ["AGENTS.md", t.agentsMd],
     ["config.toml", path.join(t.codexHome, "config.toml")],
     ["prompts dir", path.join(t.codexHome, "prompts")],
+    ["architect prompt", path.join(t.codexHome, "prompts", "architect.md")],
+    ["executor prompt", path.join(t.codexHome, "prompts", "executor.md")],
+    ["review prompt", path.join(t.codexHome, "prompts", "review.md")],
     ["skills dir", path.join(t.agentsHome, "skills")],
   ];
 
@@ -27,7 +30,7 @@ export async function runDoctor(scope: Scope) {
   }
 
   if (!ok) {
-    log.err(`Some components are missing. Run "mycodex setup --scope ${scope}" first.`);
+    log.err(`Some components are missing. Run "scodex setup --scope ${scope}" first.`);
     process.exitCode = 2;
   } else {
     log.ok("All checks passed.");

@@ -1,19 +1,29 @@
 # simple-codex
 
-Lightweight CLI for bootstrapping and checking a Codex workspace (MVP).
+A lightweight CLI to standardize Codex usage in a project.
 
 Korean documentation: [README.ko.md](./README.ko.md)
 
-## What It Does
+## Purpose
 
-- Installs baseline templates for Codex and agents
-- Creates `AGENTS.md` if missing
-- Checks local setup health
-- Adds and lists prompt files
+`simple-codex` provides a structured workflow for AI-assisted development by installing shared configuration, prompts, and agent rules.
+
+It helps teams run Codex with:
+- consistent project context
+- role-separated prompts (`architect`, `executor`, `review`)
+- reproducible setup and validation
+
+## Features
+
+- Install baseline templates for Codex and agents
+- Create `AGENTS.md` if missing
+- Validate workspace health
+- Add and list prompt files
+- Run a fixed non-interactive workflow (`architect -> executor -> review`)
 
 ## Commands
 
-The package binary is `scodex` (legacy alias: `simple-codex`), and the CLI program name is `scodex`.
+The package binary is `scodex` (legacy alias: `simple-codex`).
 
 ### `setup`
 
@@ -33,20 +43,40 @@ Validate required files and directories.
 scodex doctor --scope project
 ```
 
+Checks:
+- `codexHome`, `agentsHome`, `stateHome`
+- `AGENTS.md`
+- `<CODEX_HOME>/config.toml`
+- `<CODEX_HOME>/prompts/{architect,executor,review}.md`
+- `<AGENTS_HOME>/skills`
+
 ### `prompt add`
 
-Create a new prompt file under `<CODEX_HOME>/prompts`.
+Create a prompt file under `<CODEX_HOME>/prompts`.
 
 ```bash
-scodex prompt add architect --scope project
+scodex prompt add my-role --scope project
 ```
 
 ### `prompt list`
 
-List available prompts.
+List prompts under `<CODEX_HOME>/prompts`.
 
 ```bash
 scodex prompt list --scope project
+```
+
+### `workflow`
+
+Run a fixed sequence:
+1. `architect`
+2. `executor` (receives architect output)
+3. `review` (receives architect + executor outputs)
+
+Prints the final `review` output.
+
+```bash
+scodex workflow --scope project --task "Create a project introduction HTML page"
 ```
 
 ## Scope Behavior
@@ -81,13 +111,21 @@ node dist/cli.js --help
 ```text
 src/
   cli.ts
-  command/
+  commands/
     setup.ts
     doctor.ts
     prompt.ts
+    workflow.ts
   templates/
   utils/
 ```
+
+## Roadmap
+
+- Stage 1: setup/doctor/prompt template system
+- Stage 2 (current): fixed multi-role workflow with output handoff
+- Stage 3 (planned): persisted run state and resume/replay
+- Stage 4 (planned): DAG workflow, branching, parallel safe execution
 
 ## License
 

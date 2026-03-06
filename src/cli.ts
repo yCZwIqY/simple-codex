@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { Command } from "commander";
-import { runSetup } from "./commands/setup.js";
-import { runDoctor } from "./commands/doctor.js";
-import { runPromptAdd, runPromptList } from "./commands/prompt.js";
+import { Command } from 'commander';
+import { runSetup } from './commands/setup.js';
+import { runDoctor } from './commands/doctor.js';
+import { runPromptAdd, runPromptList } from './commands/prompt.js';
+import { runWorkflow } from './commands/workflow.js';
 
 type Scope = "user" | "project";
 function parseScope(v: string): Scope {
@@ -54,6 +55,17 @@ prompt
   .action(async (opts) => {
     const scope = parseScope(opts.scope);
     await runPromptList(scope);
+  });
+
+program
+  .command('workflow')
+  .description('Run workflow (architect -> executor -> review)')
+  .option('--scope <scope>', 'user | project', 'project')
+  .requiredOption('--task <task>', 'Task description for the workflow')
+  .action(async (opts) => {
+    const scope = parseScope(opts.scope);
+    const task = String(opts.task);
+    await runWorkflow(scope, task);
   });
 
 program.parseAsync(process.argv).catch((e) => {
