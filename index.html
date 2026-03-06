@@ -1,332 +1,280 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="simple-codex 프로젝트 소개 페이지: 구조화된 AI 개발 워크플로우를 위한 CLI 도구"
-    />
-    <title>simple-codex | Structured AI Workflow CLI</title>
-    <style>
-      :root {
-        --bg: #f4f7fb;
-        --surface: #ffffff;
-        --text: #10243a;
-        --muted: #516274;
-        --line: #d7e2ef;
-        --primary: #0f7a6d;
-        --primary-strong: #0b5f55;
-        --accent: #e7f6f3;
-        --code-bg: #0f1d2a;
-        --code-text: #d8e8ff;
-        --shadow: 0 14px 30px rgba(16, 36, 58, 0.08);
-        --radius: 16px;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>simple-codex | 프로젝트 소개</title>
+  <style>
+    :root {
+      --bg: #f2f0e9;
+      --ink: #111111;
+      --paper: #ffffff;
+      --lime: #d7ff2f;
+      --orange: #ff6a00;
+      --blue: #0a3fe0;
+      --red: #e3261e;
+      --line: #111111;
+      --maxw: 1080px;
+      --s1: 0.45rem;
+      --s2: 0.85rem;
+      --s3: 1.2rem;
+      --s4: 1.8rem;
+      --s5: 2.6rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(120deg, #f2f0e9 0%, #f2f0e9 45%, #d7ff2f 45%, #d7ff2f 100%);
+      color: var(--ink);
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .wrap {
+      width: min(100% - 2rem, var(--maxw));
+      margin: 0 auto;
+      padding: var(--s5) 0;
+      display: grid;
+      gap: var(--s4);
+    }
+
+    .panel {
+      border: 3px solid var(--line);
+      border-radius: 0;
+      background: var(--paper);
+      padding: var(--s4);
+      box-shadow: 8px 8px 0 var(--line);
+    }
+
+    .hero {
+      background: linear-gradient(140deg, var(--blue), #2c69ff);
+      color: #ffffff;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 var(--s2) 0;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      font-weight: 900;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 800;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0 0 var(--s3) 0;
+      max-width: 75ch;
+    }
+
+    .label {
+      display: inline-block;
+      border: 2px solid var(--line);
+      border-radius: 0;
+      background: var(--lime);
+      color: #111111;
+      padding: 0.15rem 0.55rem;
+      margin-bottom: var(--s2);
+      font-weight: 800;
+    }
+
+    .features,
+    .roles,
+    .flow {
+      display: grid;
+      gap: var(--s3);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .block {
+      border: 3px solid var(--line);
+      border-radius: 0;
+      padding: var(--s3);
+      background: #ffffff;
+    }
+
+    .block.orange { border-left: 12px solid var(--orange); }
+    .block.blue { border-left: 12px solid var(--blue); }
+    .block.red { border-left: 12px solid var(--red); }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    li { margin-bottom: var(--s1); }
+
+    .command {
+      display: inline-block;
+      padding: 0.35rem 0.6rem;
+      border: 2px solid var(--line);
+      border-radius: 0;
+      background: #ffffff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .roadmap {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: var(--s2);
+    }
+
+    .roadmap li {
+      border: 3px solid var(--line);
+      border-radius: 0;
+      padding: var(--s2) var(--s3);
+      background: #ffffff;
+      font-weight: 600;
+    }
+
+    .state {
+      margin-left: 0.5rem;
+      display: inline-block;
+      border: 2px solid var(--line);
+      border-radius: 0;
+      padding: 0.05rem 0.45rem;
+      font-size: 0.8rem;
+      font-weight: 900;
+      background: var(--lime);
+    }
+
+    .state.current {
+      background: var(--red);
+      color: #ffffff;
+    }
+
+    footer {
+      margin-top: var(--s2);
+      border-top: 3px solid var(--line);
+      padding-top: var(--s2);
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      .wrap {
+        width: min(100% - 1.2rem, var(--maxw));
+        padding: var(--s4) 0;
+        gap: var(--s3);
       }
 
-      * {
-        box-sizing: border-box;
+      .panel {
+        padding: var(--s3);
+        box-shadow: 5px 5px 0 var(--line);
       }
 
-      body {
-        margin: 0;
-        color: var(--text);
-        font-family: "SUIT Variable", "Pretendard", "Noto Sans KR", sans-serif;
-        background:
-          radial-gradient(circle at 5% 10%, #dff3ee 0%, transparent 36%),
-          radial-gradient(circle at 95% 0%, #d8e9f9 0%, transparent 35%),
-          var(--bg);
-        line-height: 1.65;
-      }
-
-      .container {
-        width: min(1080px, calc(100% - 2rem));
-        margin: 0 auto;
-      }
-
-      header {
-        padding: 4.5rem 0 2.75rem;
-      }
-
-      .eyebrow {
-        display: inline-block;
-        padding: 0.3rem 0.7rem;
-        border-radius: 999px;
-        background: var(--accent);
-        color: var(--primary-strong);
-        font-weight: 700;
-        font-size: 0.85rem;
-        letter-spacing: 0.02em;
-      }
-
-      h1 {
-        margin: 1rem 0 0.75rem;
-        line-height: 1.2;
-        font-size: clamp(2rem, 5vw, 3.25rem);
-      }
-
-      .lead {
-        max-width: 760px;
-        color: var(--muted);
-        font-size: 1.05rem;
-      }
-
-      nav {
-        margin-top: 1.6rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-      }
-
-      nav a {
-        text-decoration: none;
-        color: var(--text);
-        border: 1px solid var(--line);
-        background: var(--surface);
-        border-radius: 999px;
-        padding: 0.45rem 0.9rem;
-        font-size: 0.9rem;
-      }
-
-      main {
-        padding-bottom: 4rem;
-      }
-
-      section {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 1.35rem;
-        box-shadow: var(--shadow);
-        margin-bottom: 1rem;
-      }
-
-      h2 {
-        margin: 0 0 0.7rem;
-        font-size: 1.35rem;
-      }
-
-      .two-col {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.9rem;
-      }
-
-      article {
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 0.95rem;
-        background: #fbfdff;
-      }
-
-      article h3 {
-        margin: 0 0 0.4rem;
-        font-size: 1.02rem;
-      }
-
-      ul {
-        margin: 0.5rem 0 0;
-        padding-left: 1.1rem;
-      }
-
-      pre {
-        margin: 0.65rem 0 0;
-        border-radius: 12px;
-        border: 1px solid #203245;
-        background: var(--code-bg);
-        color: var(--code-text);
-        padding: 0.75rem 0.9rem;
-        overflow: auto;
-      }
-
-      code {
-        font-family: "JetBrains Mono", "Fira Code", monospace;
-        font-size: 0.9rem;
-      }
-
-      .roadmap-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.9rem;
-      }
-
-      .stage {
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 0.9rem;
-        background: #ffffff;
-      }
-
-      .stage strong {
-        color: var(--primary-strong);
-      }
-
-      .footer-box {
-        border: 1px solid #afdacf;
-        background: #eefaf7;
-      }
-
-      .meta {
-        font-size: 0.88rem;
-        color: var(--muted);
-      }
-
-      @media (max-width: 840px) {
-        .two-col,
-        .roadmap-grid {
-          grid-template-columns: 1fr;
-        }
-
-        header {
-          padding-top: 3rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="container">
-      <span class="eyebrow">Codex Workflow Toolkit</span>
-      <h1>simple-codex</h1>
-      <p class="lead">
-        <code>simple-codex</code>는 프로젝트 내부에서 Codex CLI 사용 방식을 표준화하는 도구입니다.
-        프롬프트, 에이전트 규칙, 실행 순서를 구조화해 AI 협업을 재현 가능하고 예측 가능하게 만듭니다.
+      p { font-size: 0.98rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="panel hero" aria-labelledby="intro-title">
+      <span class="label">프로젝트 소개</span>
+      <h1 id="intro-title">simple-codex</h1>
+      <p>
+        <strong>simple-codex</strong>는 이 저장소에서 Codex CLI 사용 방식을 표준화해,
+        예측 가능하고 재현 가능한 AI 보조 개발 워크플로를 만드는 도구입니다.
       </p>
-      <nav>
-        <a href="#purpose">목적</a>
-        <a href="#concepts">핵심 개념</a>
-        <a href="#workflow">워크플로우</a>
-        <a href="#structure">프롬프트/스킬 구조</a>
-        <a href="#philosophy">설계 철학</a>
-        <a href="#roadmap">로드맵</a>
-      </nav>
+      <p>
+        공유 설정, 역할 기반 프롬프트, 재사용 가능한 에이전트 스킬, 환경 검증 명령을 하나의 흐름으로 제공합니다.
+      </p>
     </header>
 
-    <main class="container">
-      <section id="purpose">
-        <h2>프로젝트 목적</h2>
-        <p>
-          매번 수동으로 프롬프트를 작성하는 대신, 팀이 동일한 규칙과 템플릿으로 Codex를 실행하도록
-          돕습니다. 이를 통해 개발 흐름의 일관성과 생산성을 높입니다.
-        </p>
-      </section>
-
-      <section id="concepts">
-        <h2>핵심 개념: Architect / Executor</h2>
-        <div class="two-col">
-          <article>
-            <h3>Architect Agent</h3>
-            <p>설계와 계획을 담당합니다.</p>
-            <ul>
-              <li>요구사항 분석</li>
-              <li>아키텍처/구현 전략 제시</li>
-              <li>작업 단계 분해 및 변경 파일 정의</li>
-              <li>직접 파일 수정은 수행하지 않음</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Executor Agent</h3>
-            <p>구현과 코드 수정을 담당합니다.</p>
-            <ul>
-              <li>코드 생성 및 수정</li>
-              <li>프로젝트 규칙 준수</li>
-              <li>Architect 계획 기반 구현</li>
-              <li>결과의 논리적 정합성 확인</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="workflow">
-        <h2>표준 워크플로우</h2>
-        <article>
-          <h3>1) Setup</h3>
-          <p>프로젝트를 Codex 사용 가능 상태로 초기화합니다.</p>
-          <pre><code>simple-codex setup</code></pre>
+    <section class="panel" aria-labelledby="features-title">
+      <h2 id="features-title">핵심 기능</h2>
+      <div class="features">
+        <article class="block orange">
+          <h3>공유 Codex 설정</h3>
+          <p>프로젝트 범위에서 동일한 실행 환경을 맞춰 팀 간 결과 편차를 줄입니다.</p>
         </article>
-        <article>
-          <h3>2) Doctor</h3>
-          <p>CLI 설치, 설정 파일, 경로 상태를 검증합니다.</p>
-          <pre><code>simple-codex doctor</code></pre>
+        <article class="block blue">
+          <h3>역할 기반 프롬프트</h3>
+          <p><code>architect</code>, <code>executor</code>, <code>review</code> 역할별 책임을 분리해 출력 일관성을 높입니다.</p>
         </article>
-        <article>
-          <h3>3) Prompt</h3>
-          <p>역할별 사전 정의 프롬프트로 Codex를 실행합니다.</p>
-          <pre><code>simple-codex prompt architect
-simple-codex prompt executor</code></pre>
+        <article class="block red">
+          <h3>스킬 + 환경 검증</h3>
+          <p>재사용 가능한 스킬과 doctor 검증 흐름으로 실행 전후 상태를 빠르게 확인합니다.</p>
         </article>
-      </section>
+      </div>
+    </section>
 
-      <section id="structure">
-        <h2>프롬프트 / 스킬 구조</h2>
-        <div class="two-col">
-          <article>
-            <h3>Prompt Structure</h3>
-            <p>역할 분리형 프롬프트 파일:</p>
-            <pre><code>templates/codex/prompts/
-├── architect.md
-└── executor.md</code></pre>
-          </article>
-          <article>
-            <h3>Agent Skills</h3>
-            <p>재사용 가능한 도메인 지식 및 워크플로우:</p>
-            <pre><code>templates/agents/skills/
-└── &lt;skill-name&gt;/
-    └── SKILL.md</code></pre>
-          </article>
-        </div>
-      </section>
+    <section class="panel" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">사용 방법 (워크플로)</h2>
+      <p class="command">scodex workflow --scope project --task "&lt;task&gt;"</p>
+      <div class="flow" role="list" aria-label="워크플로 실행 순서">
+        <article class="block blue" role="listitem">
+          <h3>1. architect</h3>
+          <p>요구사항 분석, 구현 계획 수립, 대상 파일 및 위험을 정의합니다.</p>
+        </article>
+        <article class="block red" role="listitem">
+          <h3>2. executor</h3>
+          <p><code>architect</code> 출력을 받아 실제 파일 변경과 검증을 수행합니다.</p>
+        </article>
+        <article class="block orange" role="listitem">
+          <h3>3. review</h3>
+          <p><code>architect</code>와 <code>executor</code> 출력을 함께 검토해 품질과 요구사항 충족도를 평가합니다.</p>
+        </article>
+      </div>
+    </section>
 
-      <section id="philosophy">
-        <h2>설계 철학</h2>
-        <ul>
-          <li>구조화된 AI 워크플로우: 즉흥 프롬프트보다 정해진 단계 우선</li>
-          <li>역할 분리: 설계와 구현 책임을 분리해 품질과 속도 균형 확보</li>
-          <li>재현 가능성: 팀 전체가 같은 규칙으로 실행 가능</li>
-          <li>간결한 CLI: 학습 비용을 낮추면서 확장 가능한 인터페이스 제공</li>
-        </ul>
-      </section>
+    <section class="panel" aria-labelledby="roles-title">
+      <h2 id="roles-title">역할 정의</h2>
+      <div class="roles">
+        <article class="block blue">
+          <h3>architect</h3>
+          <ul>
+            <li>요구사항 분석 및 구현 가능한 설계안 제시</li>
+            <li>모듈/파일 단위 분해 및 위험 식별</li>
+            <li>파일 직접 수정은 수행하지 않음</li>
+          </ul>
+        </article>
+        <article class="block red">
+          <h3>executor</h3>
+          <ul>
+            <li>설계 출력을 기반으로 범위 내 구현 진행</li>
+            <li>작은 단위로 변경하고 검증 결과 보고</li>
+            <li>불필요한 구조 변경 없이 요청 범위 유지</li>
+          </ul>
+        </article>
+        <article class="block orange">
+          <h3>review</h3>
+          <ul>
+            <li>출력 품질과 요구사항 커버리지 평가</li>
+            <li>증거 기반 심각도(high/medium/low)로 이슈 보고</li>
+            <li>직접 구현 패치는 제공하지 않음</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-      <section id="roadmap">
-        <h2>로드맵 (Stage 1 ~ 4)</h2>
-        <div class="roadmap-grid">
-          <article class="stage">
-            <strong>Stage 1 (완료)</strong>
-            <ul>
-              <li>setup / doctor / prompt 기반 템플릿 표준화</li>
-            </ul>
-          </article>
-          <article class="stage">
-            <strong>Stage 2 (현재)</strong>
-            <ul>
-              <li>고정 역할 시퀀스 워크플로우 실행</li>
-              <li>역할 간 출력 전달 (in-memory / temp 파일)</li>
-            </ul>
-          </article>
-          <article class="stage">
-            <strong>Stage 3</strong>
-            <ul>
-              <li>워크플로우 상태 영속화(runId, step status, artifacts)</li>
-              <li>재개/재실행/리플레이 및 단계별 재시도 제어</li>
-              <li>최종 리포트 포맷(변경 요약, 에러, 다음 액션)</li>
-            </ul>
-          </article>
-          <article class="stage">
-            <strong>Stage 4</strong>
-            <ul>
-              <li>DAG 기반 의존성 워크플로우</li>
-              <li>조건 분기(if/else) 및 자동 역할 선택</li>
-              <li>안전한 병렬 실행과 결과 병합 전략</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="footer-box">
-        <h2>시작하기</h2>
-        <p>프로젝트 루트에서 아래 명령으로 초기화를 시작하세요.</p>
-        <pre><code>simple-codex setup</code></pre>
-        <p class="meta">기준 문서: AGENTS.md / 작성일: 2026-03-06</p>
-      </section>
-    </main>
-  </body>
+    <section class="panel" aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title">로드맵</h2>
+      <ul class="roadmap">
+        <li><strong>Stage 1</strong> <span class="state">완료</span> setup, doctor, prompt template system</li>
+        <li><strong>Stage 2</strong> <span class="state current">진행 중</span> fixed role sequence + output handoff</li>
+        <li><strong>Stage 3</strong> <span class="state">예정</span> persisted run state, resume/replay</li>
+        <li><strong>Stage 4</strong> <span class="state">예정</span> DAG workflow, branching, parallel safe steps</li>
+      </ul>
+      <footer>프로젝트 경로: <code>.codex</code>, <code>.agents</code>, <code>AGENTS.md</code>, <code>.myx</code></footer>
+    </section>
+  </main>
+</body>
 </html>
