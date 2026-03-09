@@ -1,6 +1,6 @@
 {
   "name": "simple-codex",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A lightweight orchestration layer for the Codex CLI (MVP)",
   "main": "index.js",
   "type": "module",
@@ -14,7 +14,9 @@
     "prepare": "npm run build"
   },
   "keywords": [],
-  "browserslist": ["https://yczwiqy.github.io/simple-codex/"],
+  "browserslist": [
+    "https://yczwiqy.github.io/simple-codex/"
+  ],
   "author": "jiyoon",
   "license": "ISC",
   "repository": "https://github.com/yCZwIqY/simple-codex",
