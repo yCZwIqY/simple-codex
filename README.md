@@ -4,6 +4,11 @@ A lightweight CLI to standardize Codex usage in a project.
 
 Korean documentation: [README.ko.md](./README.ko.md)
 
+## Links
+
+- npm: https://www.npmjs.com/package/simple-codex
+- Intro page: https://yczwiqy.github.io/simple-codex/
+
 ## Purpose
 
 `simple-codex` provides a structured workflow for AI-assisted development by installing shared configuration, prompts, and agent rules.

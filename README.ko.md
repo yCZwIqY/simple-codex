@@ -4,6 +4,11 @@
 
 English documentation: [README.md](./README.md)
 
+## 링크
+
+- npm: https://www.npmjs.com/package/simple-codex
+- 소개 페이지: https://yczwiqy.github.io/simple-codex/
+
 ## 목적
 
 `simple-codex`는 공유된 설정/프롬프트/에이전트 규칙을 설치해 AI 보조 개발 워크플로우를 구조화합니다.
