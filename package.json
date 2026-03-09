@@ -1,6 +1,6 @@
 {
   "name": "simple-codex",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A lightweight orchestration layer for the Codex CLI (MVP)",
   "main": "index.js",
   "type": "module",
@@ -13,13 +13,20 @@
     "dev": "node --enable-source-maps dist/cli.js",
     "prepare": "npm run build"
   },
-  "keywords": [],
-  "browserslist": [
-    "https://yczwiqy.github.io/simple-codex/"
+  "keywords": [
+    "codex",
+    "codex-cli",
+    "ai-agent",
+    "workflow",
+    "orchestration",
+    "developer-tools",
+    "prompt-engineering",
+    "cli"
   ],
   "author": "jiyoon",
   "license": "ISC",
   "repository": "https://github.com/yCZwIqY/simple-codex",
+  "homepage": "https://yczwiqy.github.io/simple-codex/",
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "@types/node": "^25.3.3",
