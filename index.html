@@ -1,37 +1,36 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>simple-codex | 프로젝트 소개</title>
+  <title>simple-codex | Library Overview</title>
   <style>
     :root {
-      --bg: #f2f0e9;
-      --ink: #111111;
+      --bg: #f0ece2;
+      --ink: #121212;
       --paper: #ffffff;
-      --lime: #d7ff2f;
-      --orange: #ff6a00;
-      --blue: #0a3fe0;
-      --red: #e3261e;
-      --line: #111111;
+      --line: #121212;
+      --blue: #0a38cf;
+      --lime: #d8ff36;
+      --orange: #ff6b00;
+      --red: #dc2219;
       --maxw: 1080px;
       --s1: 0.45rem;
       --s2: 0.85rem;
       --s3: 1.2rem;
       --s4: 1.8rem;
-      --s5: 2.6rem;
+      --s5: 2.8rem;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background:
-        linear-gradient(120deg, #f2f0e9 0%, #f2f0e9 45%, #d7ff2f 45%, #d7ff2f 100%);
       color: var(--ink);
-      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      font-family: "Space Grotesk", "IBM Plex Sans", "Noto Sans KR", sans-serif;
       line-height: 1.5;
-      word-break: keep-all;
+      background:
+        linear-gradient(112deg, #f0ece2 0%, #f0ece2 48%, #d8ff36 48%, #d8ff36 100%);
     }
 
     .wrap {
@@ -44,21 +43,61 @@
 
     .panel {
       border: 3px solid var(--line);
-      border-radius: 0;
       background: var(--paper);
-      padding: var(--s4);
       box-shadow: 8px 8px 0 var(--line);
+      padding: var(--s4);
     }
 
     .hero {
-      background: linear-gradient(140deg, var(--blue), #2c69ff);
+      background: linear-gradient(138deg, var(--blue), #275eff);
+      color: #ffffff;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--s2);
+      flex-wrap: wrap;
+      margin-bottom: var(--s3);
+    }
+
+    .label {
+      border: 2px solid var(--line);
+      background: var(--lime);
+      color: var(--ink);
+      font-weight: 800;
+      padding: 0.15rem 0.55rem;
+      display: inline-block;
+    }
+
+    .lang-switcher {
+      display: inline-flex;
+      border: 2px solid var(--line);
+      background: #ffffff;
+    }
+
+    .lang-switcher button {
+      border: 0;
+      border-left: 2px solid var(--line);
+      background: #ffffff;
+      font: inherit;
+      font-weight: 800;
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+    }
+
+    .lang-switcher button:first-child { border-left: 0; }
+
+    .lang-switcher button[aria-pressed="true"] {
+      background: var(--orange);
       color: #ffffff;
     }
 
     h1, h2, h3 {
       margin: 0 0 var(--s2) 0;
-      line-height: 1.15;
       letter-spacing: 0.01em;
+      line-height: 1.12;
     }
 
     h1 {
@@ -68,33 +107,20 @@
 
     h2 {
       font-size: clamp(1.35rem, 3vw, 2rem);
-      font-weight: 800;
+      font-weight: 850;
     }
 
     h3 {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
     }
 
     p {
       margin: 0 0 var(--s3) 0;
-      max-width: 75ch;
+      max-width: 74ch;
     }
 
-    .label {
-      display: inline-block;
-      border: 2px solid var(--line);
-      border-radius: 0;
-      background: var(--lime);
-      color: #111111;
-      padding: 0.15rem 0.55rem;
-      margin-bottom: var(--s2);
-      font-weight: 800;
-    }
-
-    .features,
-    .roles,
-    .flow {
+    .grid {
       display: grid;
       gap: var(--s3);
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -102,70 +128,107 @@
 
     .block {
       border: 3px solid var(--line);
-      border-radius: 0;
       padding: var(--s3);
       background: #ffffff;
     }
 
-    .block.orange { border-left: 12px solid var(--orange); }
     .block.blue { border-left: 12px solid var(--blue); }
+    .block.orange { border-left: 12px solid var(--orange); }
     .block.red { border-left: 12px solid var(--red); }
 
-    ul {
-      margin: 0;
-      padding-left: 1.1rem;
+    .install-grid {
+      gap: var(--s3);
+      display: flex;
+      flex-direction: column;
     }
 
-    li { margin-bottom: var(--s1); }
-
-    .command {
-      display: inline-block;
-      padding: 0.35rem 0.6rem;
-      border: 2px solid var(--line);
-      border-radius: 0;
+    .install-card {
+      border: 3px solid var(--line);
       background: #ffffff;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.95rem;
-      font-weight: 700;
-    }
-
-    .roadmap {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+      padding: var(--s3);
       display: grid;
       gap: var(--s2);
     }
 
-    .roadmap li {
-      border: 3px solid var(--line);
-      border-radius: 0;
-      padding: var(--s2) var(--s3);
-      background: #ffffff;
-      font-weight: 600;
+    .install-card h3 { margin-bottom: 0; }
+
+    .code-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--s2);
+      align-items: start;
     }
 
-    .state {
-      margin-left: 0.5rem;
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      border: 2px solid var(--line);
+      background: #f8f8f8;
+      padding: 0.6rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .copy-btn {
+      border: 2px solid var(--line);
+      background: var(--lime);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      padding: 0.45rem 0.65rem;
+      min-width: 68px;
+      cursor: pointer;
+    }
+
+    .copy-btn:active { transform: translateY(1px); }
+
+    .flow {
+      display: grid;
+      gap: var(--s3);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .role-index {
       display: inline-block;
       border: 2px solid var(--line);
-      border-radius: 0;
-      padding: 0.05rem 0.45rem;
-      font-size: 0.8rem;
-      font-weight: 900;
-      background: var(--lime);
-    }
-
-    .state.current {
-      background: var(--red);
+      background: var(--blue);
       color: #ffffff;
+      padding: 0.08rem 0.5rem;
+      margin-bottom: var(--s1);
+      font-weight: 900;
     }
 
-    footer {
+    .example {
+      border: 3px solid var(--line);
+      background: #ffffff;
+      padding: var(--s3);
+      display: grid;
+      gap: var(--s2);
+    }
+
+    .example-step {
+      border-left: 10px solid var(--orange);
+      background: #f7f7f7;
+      padding: 0.6rem 0.7rem;
+    }
+
+    .status {
+      min-height: 1.2em;
+      font-weight: 800;
       margin-top: var(--s2);
-      border-top: 3px solid var(--line);
-      padding-top: var(--s2);
-      font-weight: 700;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     @media (max-width: 720px) {
@@ -180,101 +243,251 @@
         box-shadow: 5px 5px 0 var(--line);
       }
 
-      p { font-size: 0.98rem; }
+      .code-row {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-btn {
+        justify-self: start;
+      }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <header class="panel hero" aria-labelledby="intro-title">
-      <span class="label">프로젝트 소개</span>
+      <div class="topbar">
+        <span class="label" data-i18n="heroLabel">Library Overview</span>
+        <div class="lang-switcher" role="group" aria-label="Language switcher">
+          <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang-btn="ko" aria-pressed="false">KO</button>
+        </div>
+      </div>
       <h1 id="intro-title">simple-codex</h1>
-      <p>
-        <strong>simple-codex</strong>는 이 저장소에서 Codex CLI 사용 방식을 표준화해,
-        예측 가능하고 재현 가능한 AI 보조 개발 워크플로를 만드는 도구입니다.
+      <p data-i18n="introBody1">
+        simple-codex standardizes Codex CLI usage in this repository for predictable and reproducible AI-assisted development workflows.
       </p>
-      <p>
-        공유 설정, 역할 기반 프롬프트, 재사용 가능한 에이전트 스킬, 환경 검증 명령을 하나의 흐름으로 제공합니다.
+      <p data-i18n="introBody2">
+        It bundles shared configuration, role-based prompts, reusable agent skills, and environment validation into one practical flow.
       </p>
     </header>
 
-    <section class="panel" aria-labelledby="features-title">
-      <h2 id="features-title">핵심 기능</h2>
-      <div class="features">
-        <article class="block orange">
-          <h3>공유 Codex 설정</h3>
-          <p>프로젝트 범위에서 동일한 실행 환경을 맞춰 팀 간 결과 편차를 줄입니다.</p>
-        </article>
+    <section class="panel" aria-labelledby="purpose-title">
+      <h2 id="purpose-title" data-i18n="purposeTitle">Project Intro and Purpose</h2>
+      <div class="grid">
         <article class="block blue">
-          <h3>역할 기반 프롬프트</h3>
-          <p><code>architect</code>, <code>executor</code>, <code>review</code> 역할별 책임을 분리해 출력 일관성을 높입니다.</p>
+          <h3 data-i18n="whatTitle">What it is</h3>
+          <p data-i18n="whatBody">A lightweight orchestration layer around Codex CLI that keeps team usage consistent per project scope.</p>
+        </article>
+        <article class="block orange">
+          <h3 data-i18n="whyTitle">Why it exists</h3>
+          <p data-i18n="whyBody">It separates planning, implementation, and review responsibilities so outputs are easier to validate and reuse.</p>
         </article>
         <article class="block red">
-          <h3>스킬 + 환경 검증</h3>
-          <p>재사용 가능한 스킬과 doctor 검증 흐름으로 실행 전후 상태를 빠르게 확인합니다.</p>
+          <h3 data-i18n="valueTitle">Core value</h3>
+          <p data-i18n="valueBody">One command, fixed role order, and explicit handoff data reduce drift in collaborative coding sessions.</p>
         </article>
       </div>
     </section>
 
-    <section class="panel" aria-labelledby="workflow-title">
-      <h2 id="workflow-title">사용 방법 (워크플로)</h2>
-      <p class="command">scodex workflow --scope project --task "&lt;task&gt;"</p>
-      <div class="flow" role="list" aria-label="워크플로 실행 순서">
+    <section class="panel" aria-labelledby="install-title">
+      <h2 id="install-title" data-i18n="installTitle">Installation by Package Manager</h2>
+      <p data-i18n="installBody">Copy and run one command below. The package name is <code>simple-codex</code>.</p>
+      <div class="install-grid">
+        <article class="install-card">
+          <h3>pnpm</h3>
+          <div class="code-row">
+            <pre><code>pnpm add -D simple-codex</code></pre>
+            <button class="copy-btn" type="button" data-copy="pnpm add -D simple-codex" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3>npm</h3>
+          <div class="code-row">
+            <pre><code>npm install --save-dev simple-codex</code></pre>
+            <button class="copy-btn" type="button" data-copy="npm install --save-dev simple-codex" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3>yarn</h3>
+          <div class="code-row">
+            <pre><code>yarn add -D simple-codex</code></pre>
+            <button class="copy-btn" type="button" data-copy="yarn add -D simple-codex" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3>bun</h3>
+          <div class="code-row">
+            <pre><code>bun add -d simple-codex</code></pre>
+            <button class="copy-btn" type="button" data-copy="bun add -d simple-codex" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+      </div>
+      <p id="copy-status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="usage-title">
+      <h2 id="usage-title" data-i18n="usageTitle">Usage</h2>
+      <p data-i18n="usageBody">Run the workflow command, then follow the fixed execution order and output handoff.</p>
+      <pre><code>scodex workflow --scope project --task "&lt;task&gt;"</code></pre>
+      <div class="flow" role="list" aria-label="Workflow order">
         <article class="block blue" role="listitem">
-          <h3>1. architect</h3>
-          <p>요구사항 분석, 구현 계획 수립, 대상 파일 및 위험을 정의합니다.</p>
+          <span class="role-index">1</span>
+          <h3>architect</h3>
+          <p data-i18n="roleArchitect">Analyzes requirements and proposes an implementation-ready plan without editing files.</p>
         </article>
         <article class="block red" role="listitem">
-          <h3>2. executor</h3>
-          <p><code>architect</code> 출력을 받아 실제 파일 변경과 검증을 수행합니다.</p>
+          <span class="role-index">2</span>
+          <h3>executor</h3>
+          <p data-i18n="roleExecutor">Implements changes from the architect output, validates results, and reports concise diffs.</p>
         </article>
         <article class="block orange" role="listitem">
-          <h3>3. review</h3>
-          <p><code>architect</code>와 <code>executor</code> 출력을 함께 검토해 품질과 요구사항 충족도를 평가합니다.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="panel" aria-labelledby="roles-title">
-      <h2 id="roles-title">역할 정의</h2>
-      <div class="roles">
-        <article class="block blue">
-          <h3>architect</h3>
-          <ul>
-            <li>요구사항 분석 및 구현 가능한 설계안 제시</li>
-            <li>모듈/파일 단위 분해 및 위험 식별</li>
-            <li>파일 직접 수정은 수행하지 않음</li>
-          </ul>
-        </article>
-        <article class="block red">
-          <h3>executor</h3>
-          <ul>
-            <li>설계 출력을 기반으로 범위 내 구현 진행</li>
-            <li>작은 단위로 변경하고 검증 결과 보고</li>
-            <li>불필요한 구조 변경 없이 요청 범위 유지</li>
-          </ul>
-        </article>
-        <article class="block orange">
+          <span class="role-index">3</span>
           <h3>review</h3>
-          <ul>
-            <li>출력 품질과 요구사항 커버리지 평가</li>
-            <li>증거 기반 심각도(high/medium/low)로 이슈 보고</li>
-            <li>직접 구현 패치는 제공하지 않음</li>
-          </ul>
+          <p data-i18n="roleReview">Checks coverage and quality using both architect and executor outputs with severity-ranked issues.</p>
         </article>
       </div>
     </section>
 
-    <section class="panel" aria-labelledby="roadmap-title">
-      <h2 id="roadmap-title">로드맵</h2>
-      <ul class="roadmap">
-        <li><strong>Stage 1</strong> <span class="state">완료</span> setup, doctor, prompt template system</li>
-        <li><strong>Stage 2</strong> <span class="state current">진행 중</span> fixed role sequence + output handoff</li>
-        <li><strong>Stage 3</strong> <span class="state">예정</span> persisted run state, resume/replay</li>
-        <li><strong>Stage 4</strong> <span class="state">예정</span> DAG workflow, branching, parallel safe steps</li>
-      </ul>
-      <footer>프로젝트 경로: <code>.codex</code>, <code>.agents</code>, <code>AGENTS.md</code>, <code>.myx</code></footer>
+    <section class="panel" aria-labelledby="examples-title">
+      <h2 id="examples-title" data-i18n="examplesTitle">Example</h2>
+      <div class="example">
+        <h3 data-i18n="exampleInputTitle">Sample task input</h3>
+        <pre><code>Add timeout handling to user-service based on Architect Output.</code></pre>
+        <h3 data-i18n="exampleFlowTitle">Expected flow</h3>
+        <div class="example-step" data-i18n="exampleStep1">architect: define timeout requirements, touched modules, and risk notes.</div>
+        <div class="example-step" data-i18n="exampleStep2">executor: implement timeout logic in scoped files and run validation commands.</div>
+        <div class="example-step" data-i18n="exampleStep3">review: verify requirement coverage, flag regressions, and suggest next actions.</div>
+      </div>
     </section>
   </main>
+
+  <script>
+    const translations = {
+      en: {
+        pageTitle: "simple-codex | Library Overview",
+        heroLabel: "Library Overview",
+        introBody1: "simple-codex standardizes Codex CLI usage in this repository for predictable and reproducible AI-assisted development workflows.",
+        introBody2: "It bundles shared configuration, role-based prompts, reusable agent skills, and environment validation into one practical flow.",
+        purposeTitle: "Project Intro and Purpose",
+        whatTitle: "What it is",
+        whatBody: "A lightweight orchestration layer around Codex CLI that keeps team usage consistent per project scope.",
+        whyTitle: "Why it exists",
+        whyBody: "It separates planning, implementation, and review responsibilities so outputs are easier to validate and reuse.",
+        valueTitle: "Core value",
+        valueBody: "One command, fixed role order, and explicit handoff data reduce drift in collaborative coding sessions.",
+        installTitle: "Installation by Package Manager",
+        installBody: "Copy and run one command below. The package name is simple-codex.",
+        copyButton: "Copy",
+        copySuccess: "Copied:",
+        copyFail: "Copy failed. Select and copy manually:",
+        usageTitle: "Usage",
+        usageBody: "Run the workflow command, then follow the fixed execution order and output handoff.",
+        roleArchitect: "Analyzes requirements and proposes an implementation-ready plan without editing files.",
+        roleExecutor: "Implements changes from the architect output, validates results, and reports concise diffs.",
+        roleReview: "Checks coverage and quality using both architect and executor outputs with severity-ranked issues.",
+        examplesTitle: "Example",
+        exampleInputTitle: "Sample task input",
+        exampleFlowTitle: "Expected flow",
+        exampleStep1: "architect: define timeout requirements, touched modules, and risk notes.",
+        exampleStep2: "executor: implement timeout logic in scoped files and run validation commands.",
+        exampleStep3: "review: verify requirement coverage, flag regressions, and suggest next actions."
+      },
+      ko: {
+        pageTitle: "simple-codex | 라이브러리 소개",
+        heroLabel: "라이브러리 소개",
+        introBody1: "simple-codex는 이 저장소에서 Codex CLI 사용 방식을 표준화하여 예측 가능하고 재현 가능한 AI 보조 개발 워크플로를 만듭니다.",
+        introBody2: "공유 설정, 역할 기반 프롬프트, 재사용 가능한 에이전트 스킬, 환경 검증 단계를 하나의 실용적인 흐름으로 제공합니다.",
+        purposeTitle: "프로젝트 소개 및 목적",
+        whatTitle: "무엇인가",
+        whatBody: "프로젝트 범위에서 Codex CLI 사용 일관성을 유지하도록 돕는 경량 오케스트레이션 레이어입니다.",
+        whyTitle: "왜 필요한가",
+        whyBody: "기획, 구현, 리뷰 책임을 분리하여 결과물을 검증하고 재사용하기 쉽게 만듭니다.",
+        valueTitle: "핵심 가치",
+        valueBody: "하나의 명령, 고정된 역할 순서, 명시적 출력 전달로 협업 코딩 중 결과 편차를 줄입니다.",
+        installTitle: "패키지 매니저별 설치",
+        installBody: "아래 명령 중 하나를 복사해 실행하세요. 패키지 이름은 simple-codex 입니다.",
+        copyButton: "복사",
+        copySuccess: "복사됨:",
+        copyFail: "복사 실패. 수동으로 복사하세요:",
+        usageTitle: "사용 방법",
+        usageBody: "워크플로 명령을 실행한 다음, 고정된 실행 순서와 출력 핸드오프를 따르세요.",
+        roleArchitect: "요구사항을 분석해 구현 가능한 계획을 제안하며 파일은 직접 수정하지 않습니다.",
+        roleExecutor: "architect 출력을 기반으로 범위 내 구현을 진행하고 검증 결과와 변경 요약을 보고합니다.",
+        roleReview: "architect와 executor 출력을 함께 검토해 심각도 기반 이슈로 품질과 커버리지를 확인합니다.",
+        examplesTitle: "예시",
+        exampleInputTitle: "샘플 작업 입력",
+        exampleFlowTitle: "예상 실행 흐름",
+        exampleStep1: "architect: 타임아웃 요구사항, 변경 파일, 위험 요소를 정리합니다.",
+        exampleStep2: "executor: 지정된 파일에 타임아웃 로직을 구현하고 검증 명령을 실행합니다.",
+        exampleStep3: "review: 요구사항 충족 여부를 확인하고 회귀 이슈와 다음 조치를 제시합니다."
+      }
+    };
+
+    const copyStatus = document.getElementById("copy-status");
+    const langButtons = Array.from(document.querySelectorAll("[data-lang-btn]"));
+
+    function setLanguage(lang) {
+      const dict = translations[lang] || translations.en;
+      document.documentElement.lang = lang;
+      document.title = dict.pageTitle;
+
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.dataset.i18n;
+        if (!Object.prototype.hasOwnProperty.call(dict, key)) {
+          console.warn(`Missing i18n key: ${key} (${lang})`);
+          return;
+        }
+        node.textContent = dict[key];
+      });
+
+      langButtons.forEach((btn) => {
+        const active = btn.dataset.langBtn === lang;
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      copyStatus.textContent = "";
+    }
+
+    function copyWithFallback(text) {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "absolute";
+      helper.style.left = "-9999px";
+      document.body.appendChild(helper);
+      helper.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(helper);
+      return ok;
+    }
+
+    async function handleCopy(value) {
+      const lang = document.documentElement.lang === "ko" ? "ko" : "en";
+      const dict = translations[lang];
+
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const ok = copyWithFallback(value);
+          if (!ok) throw new Error("fallback-copy-failed");
+        }
+        copyStatus.textContent = `${dict.copySuccess} ${value}`;
+      } catch (_err) {
+        copyStatus.textContent = `${dict.copyFail} ${value}`;
+      }
+    }
+
+    langButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.langBtn));
+    });
+
+    document.querySelectorAll("[data-copy]").forEach((btn) => {
+      btn.addEventListener("click", () => handleCopy(btn.dataset.copy || ""));
+    });
+
+    setLanguage("en");
+  </script>
 </body>
 </html>
