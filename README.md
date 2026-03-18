@@ -25,6 +25,7 @@ It helps teams run Codex with:
 - Validate workspace health
 - Add and list prompt files
 - Run a fixed non-interactive workflow (`architect -> executor -> review`)
+- Persist workflow run state and resume/replay by run id
 
 ## Commands
 
@@ -81,8 +82,38 @@ Run a fixed sequence:
 Prints the final `review` output.
 
 ```bash
-scodex workflow --scope project --task "Create a project introduction HTML page"
+scodex workflow --scope project --mode <new|resume|replay> [--run-id <id>] [--task "<task>"]
 ```
+
+Modes:
+- `new`: starts a new run. `--task` is required.
+- `resume`: continues a failed/incomplete run from the first non-succeeded step. Uses `--run-id` or `LATEST`.
+- `replay`: starts a new run from a previous run's task (or a new `--task`). Uses source `--run-id` or `LATEST`.
+
+Examples:
+
+```bash
+# start a new run
+scodex workflow --scope project --mode new --task "Implement JWT refresh token rotation with integration tests"
+
+# resume latest run
+scodex workflow --scope project --mode resume
+
+# resume a specific run
+scodex workflow --scope project --mode resume --run-id <run-id>
+
+# replay latest run with same task
+scodex workflow --scope project --mode replay
+
+# replay a specific run with a new task
+scodex workflow --scope project --mode replay --run-id <run-id> --task "Refactor payment webhook handler for idempotency and retry safety"
+```
+
+Workflow state files:
+- Run root: `<STATE_HOME>/workflow-runs`
+- Per-run state: `<STATE_HOME>/workflow-runs/<run-id>/state.json`
+- Latest pointer: `<STATE_HOME>/workflow-runs/LATEST`
+- `resume`/`replay` default to `LATEST` when `--run-id` is omitted.
 
 ## Scope Behavior
 
@@ -128,8 +159,8 @@ src/
 ## Roadmap
 
 - Stage 1: setup/doctor/prompt template system
-- Stage 2 (current): fixed multi-role workflow with output handoff
-- Stage 3 (planned): persisted run state and resume/replay
+- Stage 2 (done): fixed multi-role workflow with output handoff
+- Stage 3 (current): persisted run state and resume/replay
 - Stage 4 (planned): DAG workflow, branching, parallel safe execution
 
 ## License

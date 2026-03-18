@@ -152,6 +152,11 @@
 
     .install-card h3 { margin-bottom: 0; }
 
+    .install-card p {
+      margin: 0;
+      max-width: none;
+    }
+
     .code-row {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -184,6 +189,7 @@
     .copy-btn:active { transform: translateY(1px); }
 
     .flow {
+      margin-top: var(--s3);
       display: grid;
       gap: var(--s3);
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -328,8 +334,67 @@
 
     <section class="panel" aria-labelledby="usage-title">
       <h2 id="usage-title" data-i18n="usageTitle">Usage</h2>
-      <p data-i18n="usageBody">Run the workflow command, then follow the fixed execution order and output handoff.</p>
-      <pre><code>scodex workflow --scope project --task "&lt;task&gt;"</code></pre>
+      <p data-i18n="usageBody">Use setup and doctor first, then run workflow with mode options. You can also add or list custom prompts with the prompt commands.</p>
+      <div class="install-grid" aria-label="Usage commands">
+        <article class="install-card">
+          <h3 data-i18n="usageSetupTitle">1. Setup project files</h3>
+          <p data-i18n="usageSetupBody">Creates the shared project directories, prompt templates, skill templates, and AGENTS.md for the selected scope.</p>
+          <div class="code-row">
+            <pre><code>scodex setup --scope project</code></pre>
+            <button class="copy-btn" type="button" data-copy="scodex setup --scope project" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usageDoctorTitle">2. Check installation status</h3>
+          <p data-i18n="usageDoctorBody">Verifies that required folders, prompt files, skills, config, and AGENTS.md are present and ready to use.</p>
+          <div class="code-row">
+            <pre><code>scodex doctor --scope project</code></pre>
+            <button class="copy-btn" type="button" data-copy="scodex doctor --scope project" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usageWorkflowTitle">3. Run the workflow</h3>
+          <p data-i18n="usageWorkflowBody">Use mode new/resume/replay to control execution. If run-id is omitted in resume/replay, it defaults to LATEST.</p>
+          <div class="code-row">
+            <pre><code>scodex workflow --scope project --mode new --task "&lt;task&gt;"</code></pre>
+            <button class="copy-btn" type="button" data-copy='scodex workflow --scope project --mode new --task "&lt;task&gt;"' data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usageResumeReplayTitle">4. Resume or replay a run</h3>
+          <p data-i18n="usageResumeReplayBody">Resume continues a stopped run, replay creates a new run from a previous run's task.</p>
+          <div class="code-row">
+            <pre><code>scodex workflow --scope project --mode resume --run-id &lt;run-id&gt;
+scodex workflow --scope project --mode replay</code></pre>
+            <button class="copy-btn" type="button" data-copy='scodex workflow --scope project --mode resume --run-id &lt;run-id&gt;' data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usageStateTitle">5. Check persisted state files</h3>
+          <p data-i18n="usageStateBody">Run states are saved under .myx/workflow-runs with a per-run state.json and a LATEST pointer.</p>
+          <div class="code-row">
+            <pre><code>.myx/workflow-runs/
+  LATEST
+  &lt;run-id&gt;/state.json</code></pre>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usagePromptAddTitle">6. Add a prompt</h3>
+          <p data-i18n="usagePromptAddBody">Creates a new prompt markdown file in the project prompt directory so you can define an additional reusable role.</p>
+          <div class="code-row">
+            <pre><code>scodex prompt add demo --scope project</code></pre>
+            <button class="copy-btn" type="button" data-copy="scodex prompt add demo --scope project" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+        <article class="install-card">
+          <h3 data-i18n="usagePromptListTitle">7. List prompts</h3>
+          <p data-i18n="usagePromptListBody">Shows the prompt files currently installed for the selected scope so you can inspect available roles.</p>
+          <div class="code-row">
+            <pre><code>scodex prompt list --scope project</code></pre>
+            <button class="copy-btn" type="button" data-copy="scodex prompt list --scope project" data-i18n="copyButton">Copy</button>
+          </div>
+        </article>
+      </div>
       <div class="flow" role="list" aria-label="Workflow order">
         <article class="block blue" role="listitem">
           <span class="role-index">1</span>
@@ -353,11 +418,11 @@
       <h2 id="examples-title" data-i18n="examplesTitle">Example</h2>
       <div class="example">
         <h3 data-i18n="exampleInputTitle">Sample task input</h3>
-        <pre><code>Add timeout handling to user-service based on Architect Output.</code></pre>
+        <pre><code>Update README and index.html to document workflow mode and run-id.</code></pre>
         <h3 data-i18n="exampleFlowTitle">Expected flow</h3>
-        <div class="example-step" data-i18n="exampleStep1">architect: define timeout requirements, touched modules, and risk notes.</div>
-        <div class="example-step" data-i18n="exampleStep2">executor: implement timeout logic in scoped files and run validation commands.</div>
-        <div class="example-step" data-i18n="exampleStep3">review: verify requirement coverage, flag regressions, and suggest next actions.</div>
+        <div class="example-step" data-i18n="exampleStep1">new: run workflow with task, then save state to .myx/workflow-runs/&lt;run-id&gt;/state.json.</div>
+        <div class="example-step" data-i18n="exampleStep2">resume: continue the same run from the first non-succeeded step by run-id or LATEST.</div>
+        <div class="example-step" data-i18n="exampleStep3">replay: start a fresh run from a previous run with the same or overridden task.</div>
       </div>
     </section>
   </main>
@@ -382,16 +447,30 @@
         copySuccess: "Copied:",
         copyFail: "Copy failed. Select and copy manually:",
         usageTitle: "Usage",
-        usageBody: "Run the workflow command, then follow the fixed execution order and output handoff.",
+        usageBody: "Use setup and doctor first, then run workflow with mode options. You can also add or list custom prompts with the prompt commands.",
+        usageSetupTitle: "1. Setup project files",
+        usageSetupBody: "Creates the shared project directories, prompt templates, skill templates, and AGENTS.md for the selected scope.",
+        usageDoctorTitle: "2. Check installation status",
+        usageDoctorBody: "Verifies that required folders, prompt files, skills, config, and AGENTS.md are present and ready to use.",
+        usageWorkflowTitle: "3. Run the workflow",
+        usageWorkflowBody: "Use mode new/resume/replay to control execution. If run-id is omitted in resume/replay, it defaults to LATEST.",
+        usageResumeReplayTitle: "4. Resume or replay a run",
+        usageResumeReplayBody: "Resume continues a stopped run, replay creates a new run from a previous run's task.",
+        usageStateTitle: "5. Check persisted state files",
+        usageStateBody: "Run states are saved under .myx/workflow-runs with a per-run state.json and a LATEST pointer.",
+        usagePromptAddTitle: "6. Add a prompt",
+        usagePromptAddBody: "Creates a new prompt markdown file in the project prompt directory so you can define an additional reusable role.",
+        usagePromptListTitle: "7. List prompts",
+        usagePromptListBody: "Shows the prompt files currently installed for the selected scope so you can inspect available roles.",
         roleArchitect: "Analyzes requirements and proposes an implementation-ready plan without editing files.",
         roleExecutor: "Implements changes from the architect output, validates results, and reports concise diffs.",
         roleReview: "Checks coverage and quality using both architect and executor outputs with severity-ranked issues.",
         examplesTitle: "Example",
         exampleInputTitle: "Sample task input",
         exampleFlowTitle: "Expected flow",
-        exampleStep1: "architect: define timeout requirements, touched modules, and risk notes.",
-        exampleStep2: "executor: implement timeout logic in scoped files and run validation commands.",
-        exampleStep3: "review: verify requirement coverage, flag regressions, and suggest next actions."
+        exampleStep1: "new: run workflow with task, then save state to .myx/workflow-runs/<run-id>/state.json.",
+        exampleStep2: "resume: continue the same run from the first non-succeeded step by run-id or LATEST.",
+        exampleStep3: "replay: start a fresh run from a previous run with the same or overridden task."
       },
       ko: {
         pageTitle: "simple-codex | 라이브러리 소개",
@@ -399,11 +478,11 @@
         introBody1: "simple-codex는 이 저장소에서 Codex CLI 사용 방식을 표준화하여 예측 가능하고 재현 가능한 AI 보조 개발 워크플로를 만듭니다.",
         introBody2: "공유 설정, 역할 기반 프롬프트, 재사용 가능한 에이전트 스킬, 환경 검증 단계를 하나의 실용적인 흐름으로 제공합니다.",
         purposeTitle: "프로젝트 소개 및 목적",
-        whatTitle: "무엇인가",
+        whatTitle: "What it is",
         whatBody: "프로젝트 범위에서 Codex CLI 사용 일관성을 유지하도록 돕는 경량 오케스트레이션 레이어입니다.",
-        whyTitle: "왜 필요한가",
+        whyTitle: "Why it exists",
         whyBody: "기획, 구현, 리뷰 책임을 분리하여 결과물을 검증하고 재사용하기 쉽게 만듭니다.",
-        valueTitle: "핵심 가치",
+        valueTitle: "Core value",
         valueBody: "하나의 명령, 고정된 역할 순서, 명시적 출력 전달로 협업 코딩 중 결과 편차를 줄입니다.",
         installTitle: "패키지 매니저별 설치",
         installBody: "아래 명령 중 하나를 복사해 실행하세요. 패키지 이름은 simple-codex 입니다.",
@@ -411,16 +490,30 @@
         copySuccess: "복사됨:",
         copyFail: "복사 실패. 수동으로 복사하세요:",
         usageTitle: "사용 방법",
-        usageBody: "워크플로 명령을 실행한 다음, 고정된 실행 순서와 출력 핸드오프를 따르세요.",
+        usageBody: "먼저 setup과 doctor를 실행한 뒤 mode 옵션으로 workflow를 실행하세요. 필요하면 prompt 명령으로 커스텀 프롬프트를 추가하거나 확인할 수 있습니다.",
+        usageSetupTitle: "1. 프로젝트 파일 설정",
+        usageSetupBody: "선택한 범위에 맞춰 공용 디렉터리, 프롬프트 템플릿, 스킬 템플릿, AGENTS.md를 생성합니다.",
+        usageDoctorTitle: "2. 설치 상태 확인",
+        usageDoctorBody: "필수 폴더, 프롬프트 파일, 스킬, 설정 파일, AGENTS.md가 준비되어 있는지 점검합니다.",
+        usageWorkflowTitle: "3. 워크플로 실행",
+        usageWorkflowBody: "mode new/resume/replay로 실행 방식을 제어합니다. resume/replay에서 run-id를 생략하면 LATEST를 기본으로 사용합니다.",
+        usageResumeReplayTitle: "4. 실행 재개/재실행",
+        usageResumeReplayBody: "resume은 중단된 실행을 이어가고, replay는 이전 실행의 task를 기준으로 새 실행을 시작합니다.",
+        usageStateTitle: "5. 상태 파일 확인",
+        usageStateBody: "실행 상태는 .myx/workflow-runs 아래에 실행별 state.json과 LATEST 포인터로 저장됩니다.",
+        usagePromptAddTitle: "6. 프롬프트 추가",
+        usagePromptAddBody: "프로젝트 프롬프트 디렉터리에 새 마크다운 파일을 만들어 재사용 가능한 역할을 추가합니다.",
+        usagePromptListTitle: "7. 프롬프트 목록 확인",
+        usagePromptListBody: "선택한 범위에 설치된 프롬프트 파일 목록을 보여줘 사용 가능한 역할을 확인할 수 있습니다.",
         roleArchitect: "요구사항을 분석해 구현 가능한 계획을 제안하며 파일은 직접 수정하지 않습니다.",
         roleExecutor: "architect 출력을 기반으로 범위 내 구현을 진행하고 검증 결과와 변경 요약을 보고합니다.",
         roleReview: "architect와 executor 출력을 함께 검토해 심각도 기반 이슈로 품질과 커버리지를 확인합니다.",
         examplesTitle: "예시",
         exampleInputTitle: "샘플 작업 입력",
         exampleFlowTitle: "예상 실행 흐름",
-        exampleStep1: "architect: 타임아웃 요구사항, 변경 파일, 위험 요소를 정리합니다.",
-        exampleStep2: "executor: 지정된 파일에 타임아웃 로직을 구현하고 검증 명령을 실행합니다.",
-        exampleStep3: "review: 요구사항 충족 여부를 확인하고 회귀 이슈와 다음 조치를 제시합니다."
+        exampleStep1: "new: task와 함께 워크플로를 실행하고 .myx/workflow-runs/<run-id>/state.json에 상태를 저장합니다.",
+        exampleStep2: "resume: run-id 또는 LATEST 기준으로 첫 미완료 단계부터 같은 실행을 이어갑니다.",
+        exampleStep3: "replay: 이전 실행을 바탕으로 같은 task 또는 새 task로 새 실행을 시작합니다."
       }
     };
 

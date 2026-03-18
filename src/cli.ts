@@ -61,12 +61,26 @@ program
   .command('workflow')
   .description('Run workflow (architect -> executor -> review)')
   .option('--scope <scope>', 'user | project', 'project')
-  .requiredOption('--task <task>', 'Task description for the workflow')
+  .option('--mode <mode>', 'new | resume | replay', 'new')
+  .option('--run-id <runId>', 'Target run id (optional, defaults to LATEST)')
+  .option('--task <task>', 'Task description (required for mode=new, optional for replay)')
   .action(async (opts) => {
     const scope = parseScope(opts.scope);
-    const task = String(opts.task);
-    await runWorkflow(scope, task);
+    const mode = parseWorkflowMode(String(opts.mode));
+
+    await runWorkflow(scope, {
+      mode,
+      runId: opts.runId ? String(opts.runId) : undefined,
+      task: opts.task ? String(opts.task) : undefined,
+    });
   });
+
+type WorkflowMode = 'new' | 'resume' | 'replay';
+
+function parseWorkflowMode(v: string): WorkflowMode {
+  if (v !== 'new' && v !== 'resume' && v !== 'replay') throw new Error(`mode must be one of: new | resume | replay (received: ${v})`);
+  return v as WorkflowMode;
+}
 
 program.parseAsync(process.argv).catch((e) => {
   console.error(e?.message ?? e);

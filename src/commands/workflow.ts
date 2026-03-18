@@ -2,69 +2,22 @@ import path from 'node:path';
 import { getTargets, Scope } from '../paths.js';
 import { exists, readText } from '../utils/fsx.js';
 import { log } from '../utils/log.js';
-import { spawn } from 'node:child_process';
+import type { WorkflowRole, WorkflowRunMode, WorkflowRunState } from '../types/workflow-state.js';
+import {
+  createRunState,
+  markLatest,
+  writeRunState,
+} from '../state/workflow-state.js';
+import { prepareResumeRun } from './workflow/prepare-resume.js';
+import { prepareReplayRun } from './workflow/prepare-replay.js';
+import { runWorkflowSteps } from './workflow/run-steps.js';
 
-const NON_INTERACTIVE_RULES = [
-  'Execution rules:',
-  '- Do not ask the user any follow-up questions.',
-  '- Do not request choices or confirmations.',
-  '- If details are missing, state assumptions briefly and continue.',
-  '- Return only the requested output format.',
-].join('\n');
+const WORKFLOW_ROLES: WorkflowRole[] = ['architect', 'executor', 'review'];
 
-function buildStepInput(prompt: string, task: string, upstreamOutputs: string[]): string {
-  const upstreamBlock = upstreamOutputs.length > 0 ? upstreamOutputs.join('\n\n') : '- (none)';
-  return `${prompt}\n\nTask:\n${task}\n\nUpstream Outputs:\n${upstreamBlock}\n\n${NON_INTERACTIVE_RULES}\n`;
-}
-
-async function runCodex(input: string): Promise<string> {
-  return await new Promise((resolve, reject) => {
-    const args: string[] = ['exec', '-'];
-    const child = spawn('codex', args, {
-      stdio: ['pipe', 'pipe', 'pipe'],
-      env: process.env,
-    });
-
-    let stdout = '';
-    let stderr = '';
-
-    child.stdout.on('data', (data) => {
-      stdout += data.toString();
-    });
-    child.stderr.on('data', (data) => {
-      stderr += data.toString();
-    });
-
-    child.on('error', (error) => {
-      reject(new Error(`Failed to start codex: ${error.message}`));
-    });
-
-    child.on('close', (code) => {
-      if (code === 0) {
-        resolve(stdout.trim());
-      } else {
-        reject(
-          new Error(
-            `codex exited with code ${code}\n` +
-            `stderr:\n${stderr.trim()}\n` +
-            `stdout:\n${stdout.trim()}`,
-          ),
-        );
-      }
-    });
-
-    child.stdin.write(input);
-    child.stdin.end();
-  });
-}
-
-async function runStep(role: string, prompt: string, task: string, upstreamOutputs: string[]): Promise<string> {
-  log.info(`Running ${role}...`);
-  return await runCodex(buildStepInput(prompt, task, upstreamOutputs));
-}
-
-export async function runWorkflow(scope: Scope, task: string) {
-  if (!task?.trim()) throw new Error('task is required');
+export async function runWorkflow(
+  scope: Scope,
+  opts: { mode: WorkflowRunMode; runId?: string; task?: string },
+) {
   const t = getTargets(scope);
 
   const architectPromptPath = path.join(t.codexHome, 'prompts', 'architect.md');
@@ -81,15 +34,40 @@ export async function runWorkflow(scope: Scope, task: string) {
     readText(reviewPromptPath),
   ]);
 
-  const architectOutput = await runStep('architect', architectPrompt, task, []);
-  const executorOutput = await runStep('executor', executorPrompt, task, [
-    `Architect Output:\n${architectOutput}`,
-  ]);
-  const reviewOutput = await runStep('review', reviewPrompt, task, [
-    `Architect Output:\n${architectOutput}`,
-    `Executor Output:\n${executorOutput}`,
-  ]);
+  const prompts: Record<WorkflowRole, string> = {
+    architect: architectPrompt,
+    executor: executorPrompt,
+    review: reviewPrompt,
+  };
 
-  console.log(reviewOutput);
+  let state: WorkflowRunState;
+  let startIndex = 0;
+
+  if (opts.mode === 'new') {
+    const task = opts.task?.trim();
+    if (!task) throw new Error('task is required for mode=new');
+    state = await createRunState(scope, { task, mode: 'new' });
+  } else if (opts.mode === 'resume') {
+    const resumeResult = await prepareResumeRun(scope, opts.runId);
+    state = resumeResult.state;
+    if (resumeResult.kind === 'completed') {
+      log.ok(`Run already succeeded: ${state.runId}`);
+      const reviewStep = state.steps.find((s) => s.role === 'review');
+      if (reviewStep?.output) console.log(reviewStep.output);
+      return;
+    }
+    startIndex = resumeResult.startIndex;
+  } else {
+    state = await prepareReplayRun(scope, opts.runId, opts.task);
+  }
+
+  await runWorkflowSteps(scope, state, startIndex, prompts);
+
+  state.status = 'succeeded';
+  await writeRunState(scope, state);
+
+  const reviewStep = state.steps.find((s) => s.role === 'review');
+  if (reviewStep?.output) console.log(reviewStep.output);
+  log.ok(`Workflow completed (runId=${state.runId})`);
 
 }

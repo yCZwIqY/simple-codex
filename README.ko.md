@@ -25,6 +25,7 @@ English documentation: [README.md](./README.md)
 - 워크스페이스 상태 점검
 - 프롬프트 파일 생성 및 목록 조회
 - 고정 비대화형 워크플로우 실행 (`architect -> executor -> review`)
+- 워크플로우 실행 상태 저장 및 run id 기반 재개/재실행 지원
 
 ## 명령어
 
@@ -81,8 +82,38 @@ scodex prompt list --scope project
 최종 `review` 결과를 출력합니다.
 
 ```bash
-scodex workflow --scope project --task "이 프로젝트를 소개하는 HTML 파일 생성"
+scodex workflow --scope project --mode <new|resume|replay> [--run-id <id>] [--task "<task>"]
 ```
+
+모드:
+- `new`: 새 실행을 시작합니다. `--task`가 필수입니다.
+- `resume`: 실패/미완료 실행을 첫 미완료 단계부터 재개합니다. `--run-id` 또는 `LATEST`를 사용합니다.
+- `replay`: 이전 실행을 기준으로 새 실행을 시작합니다(새 `--task`로 덮어쓰기 가능). 소스 실행은 `--run-id` 또는 `LATEST`를 사용합니다.
+
+예시:
+
+```bash
+# 새 실행 시작
+scodex workflow --scope project --mode new --task "JWT 리프레시 토큰 로테이션 구현 및 통합 테스트 추가"
+
+# 최신 실행 재개
+scodex workflow --scope project --mode resume
+
+# 특정 실행 재개
+scodex workflow --scope project --mode resume --run-id <run-id>
+
+# 최신 실행 재실행(같은 task)
+scodex workflow --scope project --mode replay
+
+# 특정 실행을 새 task로 재실행
+scodex workflow --scope project --mode replay --run-id <run-id> --task "결제 웹훅 핸들러를 멱등/재시도 안전하게 리팩터링"
+```
+
+워크플로우 상태 파일:
+- 실행 루트: `<STATE_HOME>/workflow-runs`
+- 실행별 상태: `<STATE_HOME>/workflow-runs/<run-id>/state.json`
+- 최신 실행 포인터: `<STATE_HOME>/workflow-runs/LATEST`
+- `--run-id`를 생략하면 `resume`/`replay`는 `LATEST`를 기본으로 사용합니다.
 
 ## Scope 동작
 
@@ -128,8 +159,8 @@ src/
 ## 로드맵
 
 - Stage 1: setup/doctor/prompt 템플릿 시스템
-- Stage 2 (현재): 고정 멀티 역할 워크플로우 + 출력 전달
-- Stage 3 (계획): 실행 상태 저장 + 재개/재실행
+- Stage 2 (완료): 고정 멀티 역할 워크플로우 + 출력 전달
+- Stage 3 (현재): 실행 상태 저장 + 재개/재실행
 - Stage 4 (계획): DAG 워크플로우 + 분기 + 안전 병렬 실행
 
 ## License
